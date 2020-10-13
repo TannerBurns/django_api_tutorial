@@ -349,8 +349,8 @@ class BulkSubscriberSerializer(serializers.Serializer):
         return Subscriber.objects.bulk_create(create_objects_list)
 ```
 
-We will also create a new command called bulktestdata that is defined in `subscribers/management/commands/bulktestdata.py`.
-This will use our bulk serializer and time how long it took to add the records.
+We will also create a new command called `bulktestdata` that is defined in `subscribers/management/commands/bulktestdata.py`.
+This will use our bulk serializer to add the records and track how long it takes.
 
 ```python3
 import csv
