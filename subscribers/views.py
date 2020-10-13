@@ -6,8 +6,14 @@ from .serializers import SubscriberSerializer, BulkSubscriberSerializer
 
 class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin,
                      mixins.DestroyModelMixin):
-    queryset = Subscriber.objects.all()
     serializer_class = SubscriberSerializer
+
+    def get_queryset(self):
+        queryset = Subscriber.objects
+        if 'state' in self.request.query_params:
+            queryset = queryset.filter(location__state__icontains=self.request.query_params['state'])
+        return queryset.order_by('created')
+
 
     def create(self, request, *args, **kwargs):
         # if the data is a dictionary, use parent create that relies on serializer class

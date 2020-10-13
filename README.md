@@ -14,7 +14,7 @@ Well-known libraries we will use include [Django](https://docs.djangoproject.com
 - [Creating routes (urls)](#creating_routes)
 - [Adding command for test data](#adding_commands)
 - [Creating a bulk serializer](#creating_bulk_serializer)
-- [Queryset Filtering](#queryset_filtering)
+- [Queryset filtering](#queryset_filtering)
 
 <a name="install"></a>
 ## Installing Django and Djangorestframework
@@ -456,16 +456,72 @@ Here is a snippet of a response from our api for a GET request to `http://127.0.
                 "state": "Indiana"
             }
         },
+        ...
+    ]
+}
+```
+
+<a name="queryset_filtering"></a>
+## Queryset filtering
+
+Being able to list the subscribers is helpful but if we needed to only see subscribers in a specific state.
+Currently, as a user, we would have to pull all of the subscribers to memory and filter our own results. 
+This is where queryset filtering from Django can help us give the users more control. 
+The user can send a query parameter in the request and we can use it to filter our results. Our new view will look like the following.
+
+```python3
+from rest_framework import viewsets, mixins
+from rest_framework.response import Response
+
+from .models import Subscriber
+from .serializers import SubscriberSerializer, BulkSubscriberSerializer
+
+class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin,
+                     mixins.DestroyModelMixin):
+    serializer_class = SubscriberSerializer
+
+    def get_queryset(self):
+        queryset = Subscriber.objects
+        if 'state' in self.request.query_params:
+            queryset = queryset.filter(location__state__icontains=self.request.query_params['state'])
+        return queryset.order_by('created')
+
+
+    def create(self, request, *args, **kwargs):
+        # if the data is a dictionary, use parent create that relies on serializer class
+        if isinstance(request.data, dict):
+            return super(SubscriberView, self).create(request, *args, **kwargs)
+        # if the data is a list, send to the bulk serializer to handle creation
+        elif isinstance(request.data, list):
+            serializer = BulkSubscriberSerializer(data={'subscribers': request.data})
+            if serializer.is_valid():
+                serializer.create(request.data)
+                return Response(serializer.data, status=201)
+            else:
+                return Response(serializer.errors, status=400)
+        else:
+            return Response('Invalid data received', status=400)
+```
+
+We have added the `get_queryset` method and can now send `state` as a query parameter on our GET request.
+For example if we send a GET request to `http://127.0.0.1:8000/tutorial/subscribers?state=Texas` we can see that we have less total results.
+
+```json
+{
+    "count": 629,
+    "next": "http://127.0.0.1:8000/tutorial/subscribers?page=2&state=Texas",
+    "previous": null,
+    "results": [
         {
-            "id": 3,
-            "created": "2020-10-13T15:51:50.874563Z",
-            "first_name": "Jodie",
-            "last_name": "Pattington",
-            "email": "jpattington2@telegraph.co.uk",
-            "gender": "Male",
+            "id": 13,
+            "created": "2020-10-13T19:51:29.461522Z",
+            "first_name": "Laure",
+            "last_name": "Chitter",
+            "email": "lchitterc@t-online.de",
+            "gender": "Female",
             "location": {
-                "city": "Brockton",
-                "state": "Massachusetts"
+                "city": "Corpus Christi",
+                "state": "Texas"
             }
         },
         ...
@@ -473,3 +529,5 @@ Here is a snippet of a response from our api for a GET request to `http://127.0.
 }
 ```
 
+We now have an API that can create one to many subscribers based on the payload, list all subscribers, and list subscribers from a certain state.
+Hope you enjoyed the tutorial, all the code can be found [here](https://github.com/TannerBurns/django_api_tutorial).
