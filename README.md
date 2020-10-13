@@ -464,9 +464,9 @@ Here is a snippet of a response from the api for a GET request to `http://127.0.
 <a name="queryset_filtering"></a>
 ## Queryset filtering
 
-Being able to list the subscribers is helpful but if we needed to only see subscribers in a specific state.
-Currently, as a user, we would have to pull all of the subscribers to memory and filter our own results. 
-This is where queryset filtering from Django can help us give the users more control. 
+We can easily list all of the subscribers but what if we only want to see subscribers from a specific state?
+Currently, as a user, we would have to pull all of the subscribers from the api and filter our own results. 
+This is where queryset filtering from Django can help give the users more control.
 The user can send a query parameter in the request and we can use it to filter the results. The new view will look like the following.
 
 ```python3
