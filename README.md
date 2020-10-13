@@ -147,7 +147,7 @@ class Subscriber(models.Model):
 ```
 
 Above, we defined our models for a Subscriber and Location. 
-The Location model is a Many to One relationship with the Subscriber model since we can have many subscribers in one location.
+The Subscriber model is a Many to One relationship with the Location model since we can have many subscribers in one location.
 
 <a name="creating_serializers"></a>
 ## Creating serializers
