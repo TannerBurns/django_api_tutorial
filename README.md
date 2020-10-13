@@ -117,12 +117,12 @@ Here are the first 10 rows of our data for the tutorial. This data was created u
 
 Now we will break down each one of these columns corresponding data type.
 
-    first_name      Charvar(64)
-    last_name       Charvar(64)
+    first_name      Varchar(64)
+    last_name       Varchar(64)
     email           Text
-    gender          Charvar(8)
-    city            Charvar(256)
-    state           Charvar(24)
+    gender          Varchar(8)
+    city            Varchar(256)
+    state           Varchar(24)
 
 Knowing how we want to handle each of these variables is going to enable us to easily create our models and serializers.
 
