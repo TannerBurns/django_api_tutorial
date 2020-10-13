@@ -95,7 +95,7 @@ Well-known libraries we will use include [Django](https://docs.djangoproject.com
 
 ```
 
-Learn more about django project structure [here](https://djangobook.com/mdj2-django-structure/).
+Learn more about the django project structure [here](https://djangobook.com/mdj2-django-structure/).
 
 <a name="understanding_data"></a>
 ## Understanding the data
