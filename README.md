@@ -469,6 +469,7 @@ Here is a snippet of a response from our api for a GET request to `http://127.0.
             }
         },
         ...
+    ]
 }
 ```
 
