@@ -100,7 +100,7 @@ Learn more about the django project structure [here](https://djangobook.com/mdj2
 <a name="understanding_data"></a>
 ## Understanding the data
 
-Here are the first 10 rows of our data for the tutorial. This data was created using Mockaroo.
+Here are the first 10 rows of the fake data for the tutorial. This data was created using Mockaroo.
 
 | first\_name | last\_name | email                          | gender | city           | state          |
 |-------------|------------|--------------------------------|--------|----------------|----------------|
@@ -124,7 +124,7 @@ Now we will break down each one of these columns corresponding data type.
     city            VARCHAR(256)
     state           VARCHAR(24)
 
-Knowing how we want to handle each of these variables is going to enable us to easily create our models and serializers.
+Knowing how we want to handle each of these variables is going to enable us to easily create models and serializers.
 
 <a name="creating_models"></a>
 ## Creating models
@@ -146,14 +146,14 @@ class Subscriber(models.Model):
     location = models.ForeignKey(Location, related_name='subscriber_location', on_delete=models.DO_NOTHING)
 ```
 
-Above, we defined our models for a Subscriber and Location. 
+Above, we defined the models for a Subscriber and Location. 
 The Subscriber model is a Many to One relationship with the Location model since we can have many subscribers in one location.
 
 <a name="creating_serializers"></a>
 ## Creating serializers
 
-We will now define our serializers for the models. This allows us to easily convert the model objects into json objects for api responses.
-When we create serializers, we can add a lot of functionality to our api easily with djangorestframework. 
+We will now define serializers for the models. This allows us to easily convert the model objects into json objects for api responses.
+When we create serializers, we can add a lot of functionality to the api easily with djangorestframework. 
 The serializers are defined in `subscribers/serializers.py`. Notice that in the SubscriberSerializer we have to overwrite the create method. 
 This is normal when you are using relational models.
 ```python3
@@ -198,8 +198,8 @@ class SubscriberSerializer(serializers.Serializer):
 
 ```
 
-We have now defined our serializers so that we can easily do things like create, read, update, delete and list objects from our models. 
-We will see this in action when we implement our Views.
+We have now defined the serializers so that we can easily do things like create, read, update, delete and list objects from the models. 
+We will see this in action when we implement the Views.
 
 <a name="creating_views"></a>
 ## Creating views
@@ -239,8 +239,8 @@ Notice the only new change was the addition of `mixins.DestroyModelMixin` in the
 <a name="creating_routes"></a>
 ## Creating routes
 
-Now to be able to navigate to our api we will need to add the urls. The urls are defined in `subscribers/urls.py`.
-We will also want to tell our base api where to find the routes from subscribers and this is defined in `api/urls.py`.
+Now to be able to navigate to the api we will need to add the urls. The urls are defined in `subscribers/urls.py`.
+We will also want to tell the base api where to find the routes from subscribers and this is defined in `api/urls.py`.
 
 ```python3
 # api/urls.py
@@ -275,7 +275,7 @@ POST    /tutorial/subscribers       Create a new subscriber
 <a name="adding_commands"></a>
 ## Adding a command for test data
 
-Now we will add a command to django to easily allow us to add test data to our api. The commands are defined in `subscribers/management/commands` and our first command is named `testdata.py`.
+Now we will add a command to django to easily allow us to add test data to the api. The commands are defined in `subscribers/management/commands` and the first command is named `testdata.py`.
 
 ```python3
 import csv
@@ -312,7 +312,7 @@ class Command(BaseCommand):
             raise CommandError('No testdata found')
 ```
 
-This command will add our test records to the api. It will also track how many records and how quickly they were added.
+This command will add test records to the api. It will also track how many records and how quickly they were added.
 We will run the command and see what the output is.
 
 ```bash
@@ -350,7 +350,7 @@ class BulkSubscriberSerializer(serializers.Serializer):
 ```
 
 We will also create a new command called `bulktestdata` that is defined in `subscribers/management/commands/bulktestdata.py`.
-This will use our bulk serializer to add the records and track how long it takes.
+This will use the bulk serializer to add the records and track how long it takes.
 
 ```python3
 import csv
@@ -386,7 +386,7 @@ class Command(BaseCommand):
             raise CommandError('No testdata found')
 ```
 
-Now when we run our new command lets see how fast the records get added.
+Now when we run the new command lets see how fast all of the records get added.
 
 ```bash
 python3 manage.py bulktestdata
@@ -423,8 +423,8 @@ class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Crea
             return Response('Invalid data received', status=400)
 ```
 
-At this point, our api can now create one to many records at a time and allow users to browse the current subscribers.
-Here is a snippet of a response from our api for a GET request to `http://127.0.0.1:8000/tutorial/subscribers`.
+At this point, the api can now create one to many records at a time and allow users to browse the current subscribers.
+Here is a snippet of a response from the api for a GET request to `http://127.0.0.1:8000/tutorial/subscribers`.
 
 ```
 {
@@ -467,7 +467,7 @@ Here is a snippet of a response from our api for a GET request to `http://127.0.
 Being able to list the subscribers is helpful but if we needed to only see subscribers in a specific state.
 Currently, as a user, we would have to pull all of the subscribers to memory and filter our own results. 
 This is where queryset filtering from Django can help us give the users more control. 
-The user can send a query parameter in the request and we can use it to filter our results. Our new view will look like the following.
+The user can send a query parameter in the request and we can use it to filter the results. The new view will look like the following.
 
 ```python3
 from rest_framework import viewsets, mixins
@@ -503,7 +503,7 @@ class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Crea
             return Response('Invalid data received', status=400)
 ```
 
-We have added the `get_queryset` method and can now send `state` as a query parameter on our GET request.
+We have added the `get_queryset` method and can now send `state` as a query parameter on a GET request.
 For example if we send a GET request to `http://127.0.0.1:8000/tutorial/subscribers?state=Texas` we can see that we have less total results.
 
 ```json
