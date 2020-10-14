@@ -1,6 +1,6 @@
 # Django API Tutorial
 
-The goal of this tutorial is to create an api to create and list subscribers. 
+The goal of this tutorial is to create an API to create and list subscribers. 
 In this tutorial we will inspect the data, create models, serializers, and views, time the difference between create and bulk create, and learn how to filter the queryset.
 Well-known libraries we will use include [Django](https://docs.djangoproject.com/en/3.1/), and [Djangorestframework](https://www.django-rest-framework.org/).
 
@@ -36,7 +36,7 @@ Well-known libraries we will use include [Django](https://docs.djangoproject.com
     ```bash
    python3 manage.py startapp subscribers
     ```
-4. Connect subscribers and rest_framework app to the api settings in `api/settings.py`
+4. Connect subscribers and rest_framework app to the API settings in `api/settings.py`
     ```python3
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -152,8 +152,8 @@ The Subscriber model is a Many to One relationship with the Location model since
 <a name="creating_serializers"></a>
 ## Creating serializers
 
-We will now define serializers for the models. This allows us to easily convert the model objects into json objects for api responses.
-When we create serializers, we can add a lot of functionality to the api easily with djangorestframework. 
+We will now define serializers for the models. This allows us to easily convert the model objects into json objects for API responses.
+When we create serializers, we can add a lot of functionality to the API easily with djangorestframework. 
 The serializers are defined in `subscribers/serializers.py`. Notice that in the SubscriberSerializer we have to overwrite the create method. 
 This is normal when you are using relational models.
 ```python3
@@ -204,9 +204,9 @@ We will see this in action when we implement the Views.
 <a name="creating_views"></a>
 ## Creating views
 
-The views are defined in `subscribers/views.py` and contain the functionality that will be available to users of the api.
+The views are defined in `subscribers/views.py` and contain the functionality that will be available to users of the API.
 In this tutorial we will focus on being able to create and list subscribers. 
-However, I will give an example how to easily add a delete operation to the api using djangorestframework mixins.
+However, I will give an example how to easily add a delete operation to the API using djangorestframework mixins.
 
 ```python3
 from rest_framework import viewsets, mixins
@@ -219,7 +219,7 @@ class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Crea
     serializer_class = SubscriberSerializer
 ```
 
-This simple view above provides a generic api interface with list and create functionality for Subscribers.
+This simple view above provides a generic API interface with list and create functionality for Subscribers.
 To easily add the delete method and functionality it would look like the following:
 
 ```python3
@@ -239,8 +239,8 @@ Notice the only new change was the addition of `mixins.DestroyModelMixin` in the
 <a name="creating_routes"></a>
 ## Creating routes
 
-Now to be able to navigate to the api we will need to add the urls. The urls are defined in `subscribers/urls.py`.
-We will also want to tell the base api where to find the routes from subscribers and this is defined in `api/urls.py`.
+Now to be able to navigate to the API we will need to add the urls. The urls are defined in `subscribers/urls.py`.
+We will also want to tell the base API where to find the routes from subscribers and this is defined in `api/urls.py`.
 
 ```python3
 # api/urls.py
@@ -265,7 +265,7 @@ urlpatterns = router.urls
 ```
 
 In the subscribers urls we use a router from djangorestframework to easily add all of the functionality that we defined in the views.
-The router with the viewset enabled the following routes for the api.
+The router with the viewset enabled the following routes for the API.
 
 ```
 GET     /tutorial/subscribers       List view of subscribers
@@ -275,7 +275,7 @@ POST    /tutorial/subscribers       Create a new subscriber
 <a name="adding_commands"></a>
 ## Adding a command for test data
 
-Now we will add a command to django to easily allow us to add test data to the api. The commands are defined in `subscribers/management/commands` and the first command is named `testdata.py`.
+Now we will add a command to django to easily allow us to add test data to the API. The commands are defined in `subscribers/management/commands` and the first command is named `testdata.py`.
 
 ```python3
 import csv
@@ -286,7 +286,7 @@ from django.core.management.base import BaseCommand, CommandError
 from subscribers.serializers import SubscriberSerializer
 
 class Command(BaseCommand):
-    help = 'Adds the fake test data to the api'
+    help = 'Adds the fake test data to the API'
 
     def handle(self, *args, **options):
         try:
@@ -312,7 +312,7 @@ class Command(BaseCommand):
             raise CommandError('No testdata found')
 ```
 
-This command will add test records to the api. It will also track how many records and how quickly they were added.
+This command will add test records to the API. It will also track how many records and how quickly they were added.
 We will run the command and see what the output is.
 
 ```bash
@@ -361,7 +361,7 @@ from django.core.management.base import BaseCommand, CommandError
 from subscribers.serializers import BulkSubscriberSerializer
 
 class Command(BaseCommand):
-    help = 'Adds the fake test data to the api'
+    help = 'Adds the fake test data to the API'
 
     def handle(self, *args, **options):
         try:
@@ -423,8 +423,8 @@ class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Crea
             return Response('Invalid data received', status=400)
 ```
 
-At this point, the api can now create one to many records at a time and allow users to browse the current subscribers.
-Here is a snippet of a response from the api for a GET request to `http://127.0.0.1:8000/tutorial/subscribers`.
+At this point, the API can now create one to many records at a time and allow users to browse the current subscribers.
+Here is a snippet of a response from the API for a GET request to `http://127.0.0.1:8000/tutorial/subscribers`.
 
 ```
 {
@@ -465,7 +465,7 @@ Here is a snippet of a response from the api for a GET request to `http://127.0.
 ## Queryset filtering
 
 We can easily list all of the subscribers but what if we only want to see subscribers from a specific state?
-Currently, as a user, we would have to pull all of the subscribers from the api and filter our own results. 
+Currently, as a user, we would have to pull all of the subscribers from the API and filter our own results. 
 This is where queryset filtering from Django can help give the users more control.
 The user can send a query parameter in the request and we can use it to filter the results. The new view will look like the following.
 
