@@ -1,8 +1,8 @@
 # Django API Tutorial
 
-The goal of this tutorial is to create an api to create and list subscribers. 
-In this tutorial we will inspect the data, create models, serializers, and views, time the difference between create and bulk create, and learn how to filter the queryset.
-Well-known libraries we will use include [Django](https://docs.djangoproject.com/en/3.1/), and [Djangorestframework](https://www.django-rest-framework.org/).
+The goal of this tutorial is to build an api to create and list subscribers. 
+In this tutorial we will inspect the data, create models, serializers, and views, time the difference between create and bulk create, and learn how to filter a queryset.
+Well-known libraries we will use include [Django](https://docs.djangoproject.com/en/3.1/), and [Django REST framework](https://www.django-rest-framework.org/).
 
 - [Installing libraries](#install)
 - [Creating django project and app](#creating_project)
@@ -17,7 +17,7 @@ Well-known libraries we will use include [Django](https://docs.djangoproject.com
 - [Queryset filtering](#queryset_filtering)
 
 <a name="install"></a>
-## Installing Django and Djangorestframework
+## Installing Django and Django REST framework
 
 `pip3 install django djangorestframework`
 
@@ -153,7 +153,7 @@ The Subscriber model is a Many to One relationship with the Location model since
 ## Creating serializers
 
 We will now define serializers for the models. This allows us to easily convert the model objects into json objects for api responses.
-When we create serializers, we can add a lot of functionality to the api easily with djangorestframework. 
+When we create serializers, we can add a lot of functionality to the api easily with Django REST framework. 
 The serializers are defined in `subscribers/serializers.py`. Notice that in the SubscriberSerializer we have to overwrite the create method. 
 This is normal when you are using relational models.
 ```python3
@@ -206,7 +206,7 @@ We will see this in action when we implement the Views.
 
 The views are defined in `subscribers/views.py` and contain the functionality that will be available to users of the api.
 In this tutorial we will focus on being able to create and list subscribers. 
-However, I will give an example how to easily add a delete operation to the api using djangorestframework mixins.
+However, I will give an example how to easily add a delete operation to the api using Django REST framework mixins.
 
 ```python3
 from rest_framework import viewsets, mixins
@@ -264,7 +264,7 @@ router.register(r'subscribers', SubscriberView, basename='subscribers')
 urlpatterns = router.urls
 ```
 
-In the subscribers urls we use a router from djangorestframework to easily add all of the functionality that we defined in the views.
+In the subscribers urls we use a router from Django REST framework to easily add all of the functionality that we defined in the views.
 The router with the viewset enabled the following routes for the api.
 
 ```
