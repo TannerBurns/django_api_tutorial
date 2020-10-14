@@ -1,18 +1,18 @@
-# Django API Tutorial
+# Efficient API development with Python3 and Django REST framework
 
 The goal of this tutorial is to build an api to create and list subscribers. 
 In this tutorial we will inspect the data, create models, serializers, and views, time the difference between create and bulk create, and learn how to filter a queryset.
 Well-known libraries we will use include [Django](https://docs.djangoproject.com/en/3.1/), and [Django REST framework](https://www.django-rest-framework.org/).
 
 - [Installing libraries](#install)
-- [Creating django project and app](#creating_project)
+- [Creating a Django project and app](#creating_project)
 - [Project structure](#project_structure)
 - [Understanding the data](#understanding_data)
 - [Creating models](#creating_models)
 - [Creating serializers](#creating_serializers)
 - [Creating views](#creating_views)
 - [Creating routes (urls)](#creating_routes)
-- [Adding command for test data](#adding_commands)
+- [Adding a command for test data](#adding_commands)
 - [Creating a bulk serializer](#creating_bulk_serializer)
 - [Queryset filtering](#queryset_filtering)
 
@@ -49,18 +49,19 @@ Well-known libraries we will use include [Django](https://docs.djangoproject.com
         'subscribers'             # new
     ]    
     ```
-   Add the following to the bottom of the settings for paged list results
-   ```python3
-   REST_FRAMEWORK = {
+   
+    Add the following to the bottom of the settings for paged list results
+    ```python3
+    REST_FRAMEWORK = {
        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
        'PAGE_SIZE': 32
-   }
-   ```
+    }
+    ```
 
 <a name="project_structure"></a>
 ## Project structure
 
-```
+``` 
 ./django_api_tutorial
 │   manage.py
 │   README.md
@@ -92,7 +93,6 @@ Well-known libraries we will use include [Django](https://docs.djangoproject.com
     │
     └───migrations
             __init__.py
-
 ```
 
 Learn more about the django project structure [here](https://djangobook.com/mdj2-django-structure/).
@@ -117,12 +117,14 @@ Here are the first 10 rows of the fake data for the tutorial. This data was crea
 
 Now we will break down each one of these columns to their corresponding data type.
 
-    first_name      VARCHAR(64)
-    last_name       VARCHAR(64)
-    email           TEXT
-    gender          VARCHAR(8)
-    city            VARCHAR(256)
-    state           VARCHAR(24)
+```
+first_name      VARCHAR(64)
+last_name       VARCHAR(64)
+email           TEXT
+gender          VARCHAR(8)
+city            VARCHAR(256)
+state           VARCHAR(24)
+```
 
 Knowing how we want to handle each of these variables is going to enable us to easily create models and serializers.
 
