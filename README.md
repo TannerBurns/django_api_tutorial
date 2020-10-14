@@ -100,7 +100,7 @@ Learn more about the django project structure [here](https://djangobook.com/mdj2
 <a name="understanding_data"></a>
 ## Understanding the data
 
-Here are the first 10 rows of the fake data for the tutorial. This data was created using Mockaroo.
+Here are the first 10 rows of the fake data for the tutorial. This data was created using [Mockaroo](https://www.mockaroo.com/).
 
 | first\_name | last\_name | email                          | gender | city           | state          |
 |-------------|------------|--------------------------------|--------|----------------|----------------|
@@ -115,7 +115,7 @@ Here are the first 10 rows of the fake data for the tutorial. This data was crea
 | Lonnie      | Elliot     | lelliot8@msn\.com              | Male   | Joliet         | Illinois       |
 | Kellyann    | Kelso      | kkelso9@sbwire\.com            | Female | San Bernardino | California     |
 
-Now we will break down each one of these columns corresponding data type.
+Now we will break down each one of these columns to their corresponding data type.
 
     first_name      VARCHAR(64)
     last_name       VARCHAR(64)
@@ -146,7 +146,7 @@ class Subscriber(models.Model):
     location = models.ForeignKey(Location, related_name='subscriber_location', on_delete=models.DO_NOTHING)
 ```
 
-Above, we defined the models for a Subscriber and Location. 
+Above, we defined the models for both a Subscriber and Location. 
 The Subscriber model is a Many to One relationship with the Location model since we can have many subscribers in one location.
 
 <a name="creating_serializers"></a>
