@@ -204,9 +204,8 @@ We will see this in action when we implement the Views.
 <a name="creating_views"></a>
 ## Creating views
 
-The views are defined in `subscribers/views.py` and contain the functionality that will be available to users of the API.
-In this tutorial we will focus on being able to create and list subscribers. 
-However, I will give an example how to easily add a delete operation to the API using djangorestframework mixins.
+The views are defined in `subscribers/views.py` and contain the functionality that will be available to users of the api.
+In this tutorial we will focus on being able to create and list subscribers, but along with adding data we will also likely need a way to easily remove data. I will give an example how to easily add a delete operation to the api using djangorestframework mixins below.
 
 ```python3
 from rest_framework import viewsets, mixins
@@ -234,7 +233,7 @@ class SubscriberView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Crea
     serializer_class = SubscriberSerializer
 ```
 
-Notice the only new change was the addition of `mixins.DestroyModelMixin` in the class definition.
+Notice the only new change was the addition of `mixins.DestroyModelMixin` in the class definition. More info about mixins can be found on the Django REST framework [docs](https://www.django-rest-framework.org/api-guide/generic-views/#mixins).
 
 <a name="creating_routes"></a>
 ## Creating routes
